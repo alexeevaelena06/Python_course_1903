@@ -10,7 +10,6 @@ class Matrix:
         """Initializes a matrix.
         """
         self._nrow, self._ncol = n, n
-        self._data = 0, 0, []
         self.data = data
         self.rows = [[self.data] * self._nrow for _ in range(self._ncol)]
 
@@ -27,12 +26,12 @@ class Matrix:
     def __eq__(self, other):
         """Checks whether a given matrix is equal to another one"""
         return isinstance(other, Matrix) and self._nrow == other._nrow \
-               and self._ncol == other._ncol and self._data == other._data
+               and self._ncol == other._ncol and self.data == other.data
 
 
 # Test
-myMat_1 = Matrix(2, data=2)
-myMat_2 = Matrix(2, data=2)
+myMat_1 = Matrix(2, data=25)
+myMat_2 = Matrix(2, data=25)
 print(myMat_1.__str__())
 print(myMat_2.__str__())
 print(myMat_1 == myMat_2)

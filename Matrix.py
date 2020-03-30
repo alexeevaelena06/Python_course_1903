@@ -7,24 +7,24 @@ class Matrix:
     """
 
     def __init__(self, n, data=0):
-        """Initializes a matrix.
+        """Initialize a matrix.
         """
         self._nrow, self._ncol = n, n
         self.data = data
         self.rows = [[self.data] * self._nrow for _ in range(self._ncol)]
 
     def __str__(self):
-        """Function returns the matrix string representation.
+        """Return the matrix string representation.
         """
         return "\n".join(map(str, self.rows))
 
     def __repr__(self):
-        """Function returns the matrix representation.
+        """Return the matrix representation.
         """
         return f'{self.__class__.__name__}({self._nrow!r}, {self._ncol!r})'
 
     def __eq__(self, other):
-        """Checks whether a given matrix is equal to another one"""
+        """Check whether a given matrix is equal to another one"""
         return isinstance(other, Matrix) and self._nrow == other._nrow \
                and self._ncol == other._ncol and self.data == other.data
 

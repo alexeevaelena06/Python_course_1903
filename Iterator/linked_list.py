@@ -16,10 +16,7 @@ class Node:
         """
         Define comparison between nodes for unit testing
         """
-        if self.data == other.data and self.next_node == other.next_node:
-            return True
-        else:
-            return False
+        return self.data == other.data and self.next_node == other.next_node
 
     def get_data(self):
         """Get data of Node"""
@@ -43,41 +40,25 @@ class LinkedList:
     def __init__(self, head=None):
         """Constructor to initiate this object"""
         self.head = head
-        self._size = 0
-        self.__current = self.head
 
     def __len__(self):
         """Length of LinkedList"""
-        while self.__current:
-            self._size += 1
-            self.__current = self.__current.next_node
-        return self._size
+        size = 0
+        for _ in self:
+            size += 1
+        return size
 
     def __iter__(self):
         """Create an iterator. Return itself.
         """
-        while self.__current:
-            current = self.__current
-            self.__current = self.__current.next
-            yield current
-        self.__current = self.head
+        current = self.head
+        while current:
+            node = self.current
+            self.current = self.current.next_node
+            yield node
 
-    def __next__(self):
-        """
-        Provides the next entry to the iterator
-        """
-        if not self.__current:
-            self.__current = self.head
-            raise StopIteration
-        current = self.__current
-        self.__current = self.__current.next_node
-        return current
-
-    def traverse_list(self):
+    def __repr__(self):
         """Traverse LinkedList"""
         if self.head is None:
             raise KeyError("LinkedList has no element")
-        else:
-            while self.__current is not None:
-                print(self.__current.data, " ")
-                self.__current = self.__current.next_node
+        return ", ".join(node.data for node in self)

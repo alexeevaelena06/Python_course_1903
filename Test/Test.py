@@ -30,6 +30,18 @@
 #     def __init__(self, x):
 #         self.x = x
 #         print('__init__')
+
+# def usefull(cls):
+#     def decorated(*args, **kwargs):
+#         return cls(*args, **kwargs)
+#     return decorated
+#
+# @usefull
+# class A:
+#     def __init__(self, x):
+#         self.x = x
+#
+# print(A(5))
 #
 # # # # # # #
 #
@@ -177,3 +189,131 @@
 # # Отсутствует метод __delete__
 
 # # # # # # # #
+#
+# def recv(maxsize, *, block):
+#     print('')
+#
+# # Правильно recv(1024, block=True)
+
+# # # # # # # #
+#
+# args = input('> ').split()
+# if args[0] =='help':
+#     print('This is calculator application. ')
+#     print('Usage: ')
+#     print(' calc - calculates math expression')
+#     print(' db - look for different constants in database')
+#     print(' help - show this message')
+# elif args[0] == 'calc':
+#     x = eval(''.join(args[1:]))
+# elif args[0] == 'db':
+#     # TODO : search in db
+#     sql_query = ''
+# else:
+#     print('Unknown key. Try again!')
+#
+# def oroc(func):
+#     def trats(*args, **kwargs):
+#         g = func(*args, **kwargs)
+#         next(g)
+#         return g
+#     return trats
+#
+# @oroc
+# def f():
+#     print("Я здесь")
+#
+# def calc_tax_summ(summ, tax):
+#     """Функция вычисления суммы вкл. налога
+#     Принимает стоимость товара в налоговую ставку в процентах
+#     >>> calc_tax_summ(1, 100)  # Test 1.
+#     0.5
+#     >>> calc_tax_summ(0, -100)   # Test 2.
+#     0.0
+#     >>> calc_tax_summ(299, 18) # Test 3.
+#     45.61
+#     >>> calc_tax_summ(37.09, 18) # Test 4.
+#     5.66
+#     """
+#     res = 0.0
+#     if 0 <= tax <= 100:
+#         cost = summ/(1+tax/100)
+#         res = summ - cost
+#     return round(res, 2)
+#
+# if __name__ == '__main__':
+#     import doctest
+#     doctest.testmod()
+#
+# z = 10
+# def test(x=5):
+#     print(x)
+#     print(z)
+#     z = 13
+#
+# test(7)
+# print(z)
+
+# class Miracle:
+#     __slots__ = ('x', 'y', '__dict__')
+#     xx = 10
+#
+#     def __init__(self, *args, **kwargs):
+#         self.y = 11
+#
+# m = Miracle()
+# m.x = 100
+# m.y = 7
+# m.z = 13
+# print(m.x, m.y, m.z)
+
+
+# from threading import Thread
+#
+# def just_print():
+#     with open('numbers.txt', 'w') as f:
+#         for i in range(10000):
+#             f.write(str(i) + '\n')
+#
+# t1 = Thread(target=just_print)
+# t1.daemon = True
+# t1.start()
+#
+# for i in range(10):
+#     print(i*2)
+#
+# def zorro():
+#     print('Raedy')
+#     while True:
+#         n = yield 42
+#         print("n = %s" % n)
+#
+# zorro()
+#
+# from threading import Thread, Lock
+#
+# COUNT = 100000
+# resource_lock = Lock()
+# global_resource = 0
+#
+# def producer():
+#     global global_resource
+#     for i in range(COUNT):
+#         global_resource+=1
+#
+# def consumer():
+#     global global_resource
+#     for i in range(COUNT):
+#         global_resource -=1
+#
+# if __name__ == '__main__':
+#     t1 = Thread(target=producer)
+#     t2 = Thread(target=consumer)
+#     t1.start()
+#     t2.start()
+#
+# print(global_resource)
+
+# s = ' str to int'
+# x = s.split().insert(0, 'zzz')
+# print(x[0])

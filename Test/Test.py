@@ -42,6 +42,7 @@
 #         self.x = x
 #
 # print(A(5))
+# правильно можно создать
 #
 # # # # # # #
 #
@@ -95,6 +96,8 @@
 #
 #
 # print(B.__bases__[0].__subclasses__()[0])
+#
+# Ответ <class '__main__.B'>
 #
 # # # # # # # #
 #
@@ -167,8 +170,9 @@
 # res = curr.fetchall() # 4
 # print(res) # 5
 # connection.close() # 6
+
+# Неправильно: Не выполнено commit транзакции
 #
-# # Не выполнено commit транзакции
 
 # # # # # # # #
 #
@@ -186,7 +190,7 @@
 #             raise ValueError('Оценка должна быть от 1 до 5')
 #         self._values[instance] = value
 #
-# # Отсутствует метод __delete__
+# # Нет ошибок
 
 # # # # # # # #
 #
@@ -313,7 +317,287 @@
 #     t2.start()
 #
 # print(global_resource)
+# answer = "global_resource каждый раз разная"
 
 # s = ' str to int'
 # x = s.split().insert(0, 'zzz')
+#
 # print(x[0])
+# answer = "TypeError: 'NoneType' object is not subscriptable"
+#
+# class CheckCount(type):
+#     def __new__(self, cls_name, bases, cls_dict):
+#         print(cls_dict)
+#         return super().__new__(self, cls_name, bases, cls_dict)
+#
+# # # Неправильно
+# #     @staticmethod
+# #     def __prepare__(name, bases):
+# #         return {'secret': 777}
+#     def __call__(self, *args, **kwargs):
+#         self.__dict__['secret'] = 777
+#
+# print(CheckCount())
+
+# x = 13
+# class C:
+#     x=2
+#     print(x)
+#
+#     def m(self):
+#         print(x)
+#
+# i = C()
+# i.m()
+# print(x)
+#
+# Правильно 2, 13, 13
+
+# import unittest
+#
+# def gray_rabbit_divider(x):
+#     if x>1:
+#         return 10/x
+#     elif x==1:
+#         raise ValueError
+#     elif x==0:
+#         raise ZeroDivisionError
+#     else:
+#         pass
+#
+# class BigTest(unittest.TestCase):
+#     def test_me(self):
+#         with self.assertRaises(ZeroDivisionError):
+#             for x in range(6, -1, -2):
+#                 gray_rabbit_divider(x)
+#
+# if __name__ == '__main___':
+#     unittest.main()
+#
+# class SlackBase:
+#     def __init__(self):
+#         self.exists = True
+#
+#     def __getattr__(self, name):
+#         value = 'Значение для {}'.format(name)
+#         setattr(self, name, value)
+#         return value
+#
+# class LogSlack(SlackBase):
+#     def __getattr__(self, name):
+#         print('Вызов __getattr__({})'.format(name))
+#         return super().__getattr__(name)
+#
+# data = LogSlack()
+# print('foo: ', data.foo)
+#
+# # Правильно добавить в LogSlack return super().__getattr__(name)
+# class Parent():
+#     x=1
+#     y=2
+#
+# class Child(Parent):
+#     x = 111
+#     y = 222
+#
+#     def mix(self):
+#         return Parent.y
+#
+# c = Child()
+# print(c.mix())
+#
+# # Правильный ответ: 2
+#
+#
+# class A:
+#     __secret = 'TopSecret'
+#     def __init__(self, x):
+#         self.x = x
+#
+# a = A(13)
+# print(a._A__secret)
+#
+# # Правильно a._A__secret
+#
+# from socket import *
+# import time
+#
+# s = socket(AF_INET, SOCK_STREAM)
+# s.bind(('', 8888))
+# s.listen(5)
+#
+# while True:
+#     client, addr = s.accept()
+#     print('Получен запрос на соединение с %s' % str(addr))
+#     tm = time.localtime()
+#     datestr = time.strftime('%Y.%m.%d', tm)
+#     client.send(datestr.encode('ascii'))
+#     timestr = time.strftime('%H:%M:%S', tm)
+#     client.send(timestr.encode('ascii') + '\n')
+#     client.close()
+#
+# x = 10
+# a = lambda y: x + y
+# x = 20
+# b = lambda y: x + y
+#
+# print('{}, {}'.format(a(10), b(10)))
+#
+# # правильно 30, 30
+#
+# from threading import Thread
+# from queue import Queue
+#
+# class Worker:
+#     def __init__(self):
+#         self.input_queue = Queue()
+#
+#     def send(self, value):
+#         self.input_queue.put(value)
+#
+#     def close(self):
+#         self.input_queue.put(None)
+#         self.input_queue.join()
+#
+#     def __call__(self):
+#         while True:
+#             item = self.input_queue.get()
+#             self.input_queue.task_done()
+#             if item is None:
+#                 break
+#             print('Получено: ', item)
+#         return
+#
+# worker = Worker()
+# work = Thread(target=worker)
+# work.start()
+# worker.send('Simple')
+# worker.send('Data')
+# worker.close()
+# print('Выполнено')
+# # Правильно после 17-ой строки добавить  self.input_queue.task_done()
+# def make_multiplier_of(n):
+#     lst = []
+#     def multiplier(x, final=False):
+#         lst.append(x*n)
+#         if final:
+#             print(lst)
+#         return x*n
+#     return multiplier
+#
+# times3 = make_multiplier_of(3)
+# times5 = make_multiplier_of(5)
+#
+# times3(9)
+# times5(3)
+# times5(times3(2), True)
+#
+# # [15, 30]
+# def log(fmt):
+#     def deco(func):
+#         def call(*args, **kwargs):
+#             print('Log: ', fmt.format(args, kwargs))
+#             return func(*args, **kwargs)
+#         return call
+#     return deco
+#
+# @log
+# def f():
+#     print('Hello')
+# # Строки 6 и 7 нужно поменять местами
+#
+# def producer(data, next_task):
+#     tokens = data.split(';')
+#     for token in tokens:
+#         next_task.send(token)
+#     next_task.close()
+#
+# def df(tf=int, next_task=None):
+#     try:
+#         while True:
+#             token = (yield)
+#             try:
+#                 token = tf(token)
+#                 except:
+#                 pass
+#                 else:
+#                 next_task.send(token)
+#     except GeneratorExit:
+#         pass
+#
+# def pp():
+#     try:
+#         while True:
+#             token = (yield)
+#             print('->', token)
+#     except GeneratorExit:
+#         pass
+#
+# data = 'Moscow; 1147;-4'
+#
+# import time
+#
+# def make_func(x):
+#     call_log = []
+#
+#     def inner_func(y):
+#         call_log.append(time.time())
+#         res = x + y
+#         print('Sum of {} and {} is {}'. format(x, y, res))
+#         return res
+#
+#     def get_call_log():
+#         return call_log
+#
+#     return inner_func, get_call_log
+#
+# z = func(3)
+#
+#
+# class Base:
+#     var = 5
+#     def __init__(self):
+#         pass
+# class X(Base):
+#     def __init__(self):
+#         super().__init__()
+#         self.var = 7
+#
+# class Y(Base):
+#     var = 10
+#     def __init__(self):
+#         super().__init__()
+#
+# class Z(X,Y):
+#     def __init__(self):
+#         self.var = 13
+#         super().__init__()
+#
+# z = Z()
+# print(Z.mro())
+# # Ответ: [<class '__main__.Z'>, <class '__main__.X'>, <class '__main__.Y'>, <class '__main__.Base'>, <class 'object'>]
+# print(super(Z, z).var)
+# # Ответ: 10
+
+# class CheckCount(type):
+#     def __init__(self, *args, **kwargs):
+#         self.count = 0
+#         super().__init__(*args, **kwargs)
+#
+#     def __call__(self, *args, **kwargs):
+#         if self.count < 5:
+#             self.count +=1
+#             return  super().__call__(self, *args, **kwargs)
+#         else:
+#             return None
+#
+# class SpaceX(metaclass=CheckCount):
+#     def __init__(self):
+#         print('Run to Space')
+#
+#     def __call__(self):
+#         print('Yes, I Can')
+#
+# x=SpaceX()
+# x()
+# print()
